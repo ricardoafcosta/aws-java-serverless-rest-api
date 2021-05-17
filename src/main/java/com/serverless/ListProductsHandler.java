@@ -3,8 +3,7 @@ package com.serverless;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.serverless.dal.Product;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.log4j.Logger;
 
 import java.util.Collections;
 import java.util.List;
@@ -15,7 +14,7 @@ import java.util.Map;
  */
 public class ListProductsHandler implements RequestHandler<Map<String, Object>, ApiGatewayResponse> {
 
-	private static final Logger LOG = LogManager.getLogger(ListProductsHandler.class);
+	private Logger LOG = Logger.getLogger(ListProductsHandler.class);
 
 	/**
 	 * Calls the list() method on the product instance to get back a list of products.
@@ -31,7 +30,7 @@ public class ListProductsHandler implements RequestHandler<Map<String, Object>, 
 			// send the response back
 			return sendResponseBack(products, 200);
 		} catch (Exception e) {
-			LOG.error("Error in listing products: ", e);
+			LOG.error("Error in listing products: {}", e);
 			// send the error response back
 			Response responseBody = new Response("Error in listing products: ", input);
 			return sendResponseBack(responseBody, 500);

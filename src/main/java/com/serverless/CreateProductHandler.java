@@ -5,8 +5,7 @@ import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.serverless.dal.Product;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.log4j.Logger;
 
 import java.util.Collections;
 import java.util.Map;
@@ -16,7 +15,7 @@ import java.util.Map;
  */
 public class CreateProductHandler implements RequestHandler<Map<String, Object>, ApiGatewayResponse> {
 
-    private static final Logger LOG = LogManager.getLogger(CreateProductHandler.class);
+    private org.apache.log4j.Logger LOG = Logger.getLogger(CreateProductHandler.class);
 
 	/**
 	 * Reads the JSON data received via the body attribute from the input object passed in.
@@ -28,7 +27,7 @@ public class CreateProductHandler implements RequestHandler<Map<String, Object>,
 	 */
     @Override
     public ApiGatewayResponse handleRequest(Map<String, Object> input, Context context) {
-        LOG.info("received: {}", input);
+        LOG.info("received: {}", (Throwable) input);
 
         try {
             // get the body from the input

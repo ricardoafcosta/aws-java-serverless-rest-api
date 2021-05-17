@@ -12,8 +12,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedQueryList;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -34,7 +33,7 @@ public class Product {
     private final AmazonDynamoDB client;
     private final DynamoDBMapper mapper;
 
-    private Logger LOG = LoggerFactory.getLogger(Product.class);
+    private Logger LOG = Logger.getLogger(Product.class);
 
     private String id;
     private String name;

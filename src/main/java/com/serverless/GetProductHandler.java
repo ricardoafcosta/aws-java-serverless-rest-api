@@ -3,8 +3,7 @@ package com.serverless;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.serverless.dal.Product;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.log4j.Logger;
 
 import java.util.Collections;
 import java.util.Map;
@@ -14,7 +13,7 @@ import java.util.Map;
  */
 public class GetProductHandler implements RequestHandler<Map<String, Object>, ApiGatewayResponse> {
 
-	private static final Logger LOG = LogManager.getLogger(GetProductHandler.class);
+	private Logger LOG = Logger.getLogger(GetProductHandler.class);
 
 	/**
 	 * Receives the id via the path parameters attribute of the input. Then it calls the get() method on the product
@@ -39,7 +38,7 @@ public class GetProductHandler implements RequestHandler<Map<String, Object>, Ap
 				return sendResponseBack(responseBody, 404);
 			}
 		} catch (Exception e) {
-			LOG.error("Error in retrieving product: ", e);
+			LOG.error("Error in retrieving product: {}", e);
 			// send the error response back
 			Response responseBody = new Response("Error in retrieving product: ", input);
 			return sendResponseBack(responseBody, 500);
