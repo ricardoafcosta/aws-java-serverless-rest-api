@@ -1,0 +1,89 @@
+# Welcome to Serverless!
+#
+# This file is the main config file for your service.
+# It's very minimal at this point and uses default values.
+# You can always add more config options for more control.
+# We've included some commented out config examples here.
+# Just uncomment any of them to get that config option.
+#
+# For full config options, check the docs:
+#    docs.serverless.com
+#
+# Happy Coding!
+
+service: products-api
+
+frameworkVersion: '2'
+
+custom:
+  productsTableName: 'java-products-${self:provider.stage}'
+
+provider:
+  name: aws
+  runtime: java8
+  lambdaHashingVersion: 20201221
+  profile: serverless-admin
+  stage: ${opt:stage, 'dev'}
+  region: eu-west-2
+  environment:
+    PRODUCTS_TABLE_NAME: ${self:custom.productsTableName}
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.PRODUCTS_TABLE_NAME}"
+
+
+resources:
+  Resources:
+    ProductsDynamoDBTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.productsTableName}
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+          - AttributeName: name
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+          - AttributeName: name
+            KeyType: RANGE
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+
+package:
+  artifact: 'target/${self:service}-${self:provider.stage}.jar'
+
+functions:
+  listProducts:
+    handler: com.serverless.ListProductsHandler
+    events:
+      - http:
+          path: /products
+          method: get
+  getProduct:
+    handler: com.serverless.GetProductHandler
+    events:
+      - http:
+          path: /products/{id}
+          method: get
+  createProduct:
+    handler: com.serverless.CreateProductHandler
+    events:
+      - http:
+          path: /products
+          method: post
+  deleteProduct:
+    handler: com.serverless.DeleteProductHandler
+    events:
+      - http:
+          path: /products/{id}
+          method: delete
