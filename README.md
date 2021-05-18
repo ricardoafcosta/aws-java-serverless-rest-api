@@ -198,3 +198,7 @@ Throttles: 0
 Errors: 0
 Duration (avg.): 3553.82ms
 ```
+
+---
+For more info
+https://www.serverless.com/blog/how-to-create-a-rest-api-in-java-using-dynamodb-and-serverless
